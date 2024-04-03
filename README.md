@@ -1,0 +1,2 @@
+# SnakeGameAI
+reinforcement learning
