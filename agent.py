@@ -18,6 +18,7 @@ from collections import deque
 
 # from local files
 from game import SnakeGameAI, Direction, Point
+from model import Linear_QNet, QTrainer
 
 # params
 MAX_MEMORY = 100_000
@@ -30,14 +31,16 @@ class Agent:
         self.n_games = 0
         # randomness with epsilon
         self.epsilon = 0
-        # discount factor with gamma
-        self.gamma = 0
+        # discount factor with gamma, 0 for short term, 1 for long term, smaller than 1
+        self.gamma = 0.9
         # memory, pop from left
         self.memory = deque(maxlen=MAX_MEMORY)
 
         # model
-        self.model = None
-        self.trainer = None
+        # can play around with hidden size 256, but 11 and 3 are fixed,
+        # 3 is because of 3 directions [straight, left, right]
+        self.model = Linear_QNet(11, 256, 3)
+        self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
 
     def get_state(self, game):
         head = game.snake[0]
@@ -147,7 +150,7 @@ def train():
 
             if score > record:
                 record = score
-                # agent.model.save()
+                agent.model.save()
             
             print('Game', agent.n_games, 'Score', score, 'Record:', record)
 
