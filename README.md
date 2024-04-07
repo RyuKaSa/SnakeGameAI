@@ -18,6 +18,8 @@ losses for collisions = -10
     ```
 ![SnakeGameAI](outputs/output1_rewards=losses.png)
 
+-------------------------------------
+
 image output 3 of the model:
 rewards for food = 10
 losses for wall collisions = -11
