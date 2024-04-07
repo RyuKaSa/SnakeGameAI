@@ -16,7 +16,6 @@ font = pygame.font.Font('arial.ttf', 25)
 # game_iteration
 # is_collision
 
-
 class Direction(Enum):
     RIGHT = 1
     LEFT = 2
@@ -33,8 +32,15 @@ BLUE2 = (0, 100, 255)
 BLACK = (0,0,0)
 
 BLOCK_SIZE = 20
-SPEED = 160
+SPEED = 320
 # SPEED = 20, default
+
+rewards_settings = {
+    'food_eating': 10,
+    'self_collision': -10,
+    'time_penalty': 0,
+    'stuck_penalty': -10,
+}
 
 class SnakeGameAI:
     
@@ -71,9 +77,9 @@ class SnakeGameAI:
         # 1. collect user input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()
                 pygame.quit()
                 quit()
+                sys.exit()
             # if event.type == pygame.KEYDOWN:
             #     if event.key == pygame.K_LEFT:
             #         self.direction = Direction.LEFT
@@ -83,6 +89,14 @@ class SnakeGameAI:
             #         self.direction = Direction.UP
             #     elif event.key == pygame.K_DOWN:
             #         self.direction = Direction.DOWN
+            # _pause call
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    self._pause()
+                if event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+                    sys.exit()
 
         
         # 2. move
@@ -94,16 +108,20 @@ class SnakeGameAI:
         game_over = False
         if self._is_collision():
             game_over = True
-            reward = -11
+            reward = rewards_settings['self_collision']
             return reward, game_over, self.score
         if self.frame_iteration > 300*len(self.snake):
             game_over = True
-            reward = -12
+            reward = rewards_settings['stuck_penalty']
             return reward, game_over, self.score
+        # add a condition for reward 1 every 100 frames
+        # essentially, the snake will get a reward for staying alive
+        if self.frame_iteration % 100 == 0:
+            reward = rewards_settings['time_penalty']
             
         # 4. place new food or just move
         if self.head == self.food:
-            reward = 10
+            reward = rewards_settings['food_eating']
             self.score += 1
             self._place_food()
         else:
@@ -115,6 +133,19 @@ class SnakeGameAI:
         # 6. return game over and score
         return reward, game_over, self.score
     
+    def _pause(self):
+        paused = True
+        while paused:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_p:
+                        paused = False
+                    if event.key == pygame.K_q:
+                        pygame.quit()
+                        quit()
+                        sys.exit()
+            self.clock.tick(5)
+
     def _is_collision(self, pt=None):
         if pt is None:
             pt = self.head
