@@ -8,7 +8,7 @@ Snake Game from github - https://github.com/patrickloeber/python-fun/tree/master
 
 to launch the model, run the agent.ipynb file
 
-image output 1 & 2 of the model:
+image output 1 of the model:
 rewards for food = 10
 losses for collisions = -10
     
@@ -20,7 +20,7 @@ losses for collisions = -10
 
 -------------------------------------
 
-image output 3 of the model:
+image output 2 of the model:
 rewards for food = 10
 losses for wall collisions = -11
 losses for self collisions = -13
@@ -31,3 +31,27 @@ losses for self collisions = -13
             self_losses = -13
         ```
 ![SnakeGameAI](outputs/output2_rewards_lessthan_losses.png)
+
+-------------------------------------
+
+image output 3 of the model:
+rewards for food = 10
+losses for wall collisions = -15
+additional time penalty = -1
+    
+        ```python
+            rewards = 10
+            wall_losses = -15
+            time_penalty = -1
+        ```
+![SnakeGameAI](outputs/output3_food10_collision-15_time-1.png)
+
+-------------------------------------
+
+The snake always ends up colliding with itself, even though the model is trained to avoid self-collisions.
+
+# Idea for future development:
+
+- add loss for eating food before threshold of x moves
+- add time penalty starting at threshold of y moves
+

@@ -38,7 +38,7 @@ SPEED = 320
 rewards_settings = {
     'food_eating': 10,
     'self_collision': -10,
-    'time_penalty': 0,
+    'time_penalty': -1,
     'stuck_penalty': -10,
 }
 
