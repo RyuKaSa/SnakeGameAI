@@ -35,6 +35,7 @@ BLOCK_SIZE = 20
 SPEED = 320
 # SPEED = 20, default
 
+# easier to change the rewards here
 rewards_settings = {
     'food_eating': 10,
     'self_collision': -10,
