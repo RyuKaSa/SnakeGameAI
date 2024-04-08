@@ -44,7 +44,7 @@ additional time penalty = -1
             wall_losses = -15
             time_penalty = -1
         ```
-![SnakeGameAI](outputs/output3_food10_collision-15_time-1.png)
+![SnakeGameAI](outputs/output3_food10_collision-15_timepenalty-1.png)
 
 -------------------------------------
 
@@ -54,4 +54,6 @@ The snake always ends up colliding with itself, even though the model is trained
 
 - add loss for eating food before threshold of x moves
 - add time penalty starting at threshold of y moves
+
+To create a window of time for the snake to eat food before it starts losing points for taking too long to eat the food. This could be a way to encourage the snake not to Bline towards the food and instead take a more strategic approach to eating the food, without getting stuck in a loop.
 
